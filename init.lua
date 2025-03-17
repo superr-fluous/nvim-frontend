@@ -6,6 +6,7 @@ vim.opt.expandtab = true
 vim.bo.softtabstop = 2
 
 -- autoformat on save
+-- https://www.mitchellhanberg.com/modern-format-on-save-in-neovim/
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp", { clear = true }),
   callback = function(args)
