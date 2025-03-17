@@ -1,28 +1,23 @@
 require("config.lazy")
 
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=2")
-vim.cmd("set softtabstop=2")
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.bo.softtabstop = 2
 
--- as of now - fails, appears to be a problem with permissions for writing files
--- should look into it, since <Control - s> in insert mode would be grand
-function FormatAndSave()
-	local mode = vim.api.nvim_get_mode().mode
-	vim.cmd("lua vim.lsp.buf.format()")
-	if mode == "n" then
-		vim.cmd(":w<CR>")
-	elseif mode == "i" then
-		vim.cmd("<Esc>:w<CR>")
-	else
-	end
-end
+-- autoformat on save
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+  callback = function(args)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = args.buf,
+      callback = function()
+        vim.lsp.buf.format({ async = false, id = args.data.client_id })
+      end,
+    })
+  end,
+})
 
--- vim keymaps
--- Save file with <Control + S> in insert mode
--- vim.api.nvim_set_keymap("i", "<C-s>", "v:lua.FormatAndSave()", { noremap = true, expr = true })
--- vim.api.nvim_set_keymap("n", "<C-s>", "v:lua.FormatAndSave()", { noremap = true, expr = true })
--- Format and save file with <Control + Shift + s> in insert mode
--- vim.keymap.set('i', '<C-s>', format_and_save, { noremap = true, expr = true })0
 -- flexoki theme
 vim.cmd("colorscheme flexoki-dark")
 
@@ -38,4 +33,5 @@ vim.keymap.set("n", "<C-f>", ":Neotree filesystem reveal left<CR>", {})
 vim.keymap.set("n", "I", vim.lsp.buf.hover, {})
 vim.keymap.set("n", "D", vim.lsp.buf.definition, {})
 vim.keymap.set("n", "A", vim.lsp.buf.code_action, {})
-vim.keymap.set("n", "S", vim.lsp.buf.format, {})
+vim.keymap.set("n", "<C-s>", ":write<CR>", { noremap = true })
+vim.keymap.set("i", "<C-s>", "<Esc>:write<CR>", { noremap = true })
