@@ -6,7 +6,6 @@ vim.opt.expandtab = true
 vim.bo.softtabstop = 2
 
 -- autoformat on save
--- https://www.mitchellhanberg.com/modern-format-on-save-in-neovim/
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp", { clear = true }),
   callback = function(args)
@@ -36,3 +35,14 @@ vim.keymap.set("n", "D", vim.lsp.buf.definition, {})
 vim.keymap.set("n", "A", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "<C-s>", ":write<CR>", { noremap = true })
 vim.keymap.set("i", "<C-s>", "<Esc>:write<CR>", { noremap = true })
+
+-- nvim-ufo
+vim.o.foldcolumn = "1" -- '0' is not bad
+vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
+-- "za" to toggle fold at cursor
+vim.keymap.set("n", "fu", require("ufo").openAllFolds)
+vim.keymap.set("n", "ff", require("ufo").closeAllFolds)
