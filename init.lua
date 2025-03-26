@@ -1,6 +1,8 @@
 require("config.lazy")
 require("todo-comments").setup()
 
+local ufo = require("ufo")
+
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
@@ -9,15 +11,15 @@ vim.g.mapleader = " "
 
 -- autoformat on save
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("lsp", { clear = true }),
-	callback = function(args)
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = args.buf,
-			callback = function()
-				vim.lsp.buf.format({ async = false, id = args.data.client_id })
-			end,
-		})
-	end,
+  group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+  callback = function(args)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = args.buf,
+      callback = function()
+        vim.lsp.buf.format({ async = false, id = args.data.client_id })
+      end,
+    })
+  end,
 })
 
 -- flexoki theme
@@ -40,14 +42,14 @@ vim.keymap.set("i", "<C-s>", "<Esc>:write<CR>", { noremap = true })
 
 -- nvim-ufo
 vim.o.foldcolumn = "1" -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
 -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
 -- "za" to toggle fold at cursor
-vim.keymap.set("n", "fu", require("ufo").openAllFolds)
-vim.keymap.set("n", "ff", require("ufo").closeAllFolds)
+vim.keymap.set("n", "fu", ufo.openAllFolds)
+vim.keymap.set("n", "ff", ufo.closeAllFolds)
 
 -- todo-cmments (https://github.com/folke/todo-comments.nvim)
 -- NOTE: td - search; td<Left> - prev comment; td<Right> - next comment
@@ -56,9 +58,12 @@ vim.keymap.set("n", "ff", require("ufo").closeAllFolds)
 -- NOTE: :TodoLocList - uses location list to show comments
 -- NOTE: :Trouble todo - list all projects TODOs in trouble
 vim.keymap.set("n", "td<Right>", function()
-	require("todo-comments").jump_next()
+  require("todo-comments").jump_next()
 end, { desc = "Next todo comment" })
 
 vim.keymap.set("n", "td<Left>", function()
-	require("todo-comments").jump_prev()
+  require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
+
+-- gitsigns (https://github.com/lewis6991/gitsigns.nvim)
+-- TODO: setup keymaps
