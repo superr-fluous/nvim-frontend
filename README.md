@@ -13,3 +13,4 @@ Nvim configuration for frontend (TypeScript, React)
 - ~~Tackle formatting and save~~
 - keymaps similar to VSCode (Ctrl+Enter, Ctrl+., Ctrl+F and so on)
 - git hook to parse files for FIX, TODO, WARNING and so on to output in README or other .md file?
+- complete readme with plugins list, mappings and other useful info
