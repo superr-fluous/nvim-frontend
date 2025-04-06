@@ -11,6 +11,6 @@ Nvim configuration for frontend (TypeScript, React)
 - [Look for pluggins](https://github.com/rockerBOO/awesome-neovim)
 - Folding without nvim-ufo? [source](https://www.jackfranklin.co.uk/blog/code-folding-in-vim-neovim/)
 - ~~Tackle formatting and save~~
-- keymaps similar to VSCode (Ctrl+Enter, Ctrl+., Ctrl+F and so on)
+- keymaps similar to VSCode (Ctrl+Enter, Ctrl+., Ctrl+F and so on) (~80% done)
 - git hook to parse files for FIX, TODO, WARNING and so on to output in README or other .md file?
 - complete readme with plugins list, mappings and other useful info

@@ -1,18 +1,94 @@
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+
 vim.bo.softtabstop = 2
 vim.g.mapleader = "<Space>"
 
 -- turns off timeout for <leader> and removes default behaviour for <Space> in visual mode (i.e. advance one char)
 vim.opt.ttimeout = false
 vim.opt.timeout = false
+
 vim.api.nvim_set_keymap("n", "<Space>", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("i", "<Space>", " ", { noremap = true, silent = true })
 
 require("config.lazy")
 require("todo-comments").setup()
 
 local ufo = require("ufo")
+local telescope_builtin = require("telescope.builtin")
+
+-- Keyboard Shortcuts
+
+-- ~Alt + o~  BUG: cant detect Ctrl + Enter (switch to allacritty)
+-- insert new line before and jump to it
+
+-- NOTE: Nice idea https://www.reddit.com/r/neovim/comments/xj784v/comment/ip8051r/
+-- NOTE: Theres also is https://github.com/nvim-telescope/telescope-live-grep-args.nvim but do not like the flow
+-- ~CTRL + f~
+-- file search
+-- telescope
+vim.keymap.set("n", "<C-f>", function()
+  telescope_builtin.live_grep({ search_dirs = { vim.fn.expand("%:p") } }) -- shout out to https://www.reddit.com/r/neovim/comments/1b9w93g/comment/ktymegi/
+end, { noremap = true })
+
+-- ~CTRL + p~
+-- project search
+vim.keymap.set("n", "<C-P>", telescope_builtin.live_grep, { noremap = true })
+
+-- ~CTRL + e~ / ~Ctrl + o~
+-- lookup files
+vim.keymap.set("n", "<C-e>", telescope_builtin.find_files, { noremap = true })
+vim.keymap.set("n", "<C-o>", telescope_builtin.find_files, { noremap = true })
+
+-- ~Ctrl + b~
+-- Toggle neo-tree (filesystem)
+vim.keymap.set("n", "<C-b>", ":Neotree filesystem toggle right<CR>", { noremap = true })
+
+-- ~Ctrl + z~
+-- undo change
+vim.keymap.set("i", "<C-z>", "<Esc>:undo<CR>:startinsert<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-z>", ":undo<CR>", { noremap = true })
+
+-- ~Ctrl + Z~
+-- undo undo
+-- BUG: Cant bind Ctrl + Shift + <char>  prbly Windows Terminal thing
+
+-- ~Ctrl + s~
+-- format + save
+vim.keymap.set("n", "<C-s>", ":write<CR>", { noremap = true })
+vim.keymap.set("i", "<C-s>", "<Esc>:write<CR>", { noremap = true })
+
+-- ~Ctrl  + S + q~
+-- format + save + exit
+vim.keymap.set("n", "<C-q>", ":wq<CR>", { noremap = true })
+vim.keymap.set("i", "<C-q>", "<Esc>:wq<CR>", { noremap = true })
+
+-- ~Ctrl + ]~
+-- indent current line
+
+-- ~Ctrl + [~
+-- remove single indent?
+
+-- ~Ctrl + Delete~
+-- delete current line
+vim.keymap.set("n", "<C-Del>", ":d<CR>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-Del>", "<Esc>:d<CR>:startinsert<CR>", { noremap = true, silent = true })
+
+-- ~Ctrl + I~
+-- bringup info
+vim.keymap.set("n", "<C-i>", vim.lsp.buf.hover, { noremap = true })
+
+-- ~Ctrl + D~
+-- bringup definition
+vim.keymap.set("n", "<C-u>", vim.lsp.buf.definition, { noremap = true })
+
+-- ~Ctrl + .~
+-- code action
+vim.keymap.set("n", "<C-.>", vim.lsp.buf.code_action, { noremap = true })
+
+-- ~Ctrl + d~
+-- select word; grep and loop
 
 -- autoformat on save
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -29,21 +105,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- flexoki theme
 vim.cmd("colorscheme flexoki-dark")
-
--- telescope
-local telescope_builtin = require("telescope.builtin")
-vim.keymap.set("n", "<C-o>", telescope_builtin.find_files, {})
-vim.keymap.set("n", "<C-p>", telescope_builtin.live_grep, {})
-
--- neo-tree
-vim.keymap.set("n", "<C-f>", ":Neotree filesystem reveal left<CR>", {})
-
--- lspconfig
-vim.keymap.set("n", "I", vim.lsp.buf.hover, {})
-vim.keymap.set("n", "D", vim.lsp.buf.definition, {})
-vim.keymap.set("n", "A", vim.lsp.buf.code_action, {})
-vim.keymap.set("n", "<C-s>", ":write<CR>", { noremap = true })
-vim.keymap.set("i", "<C-s>", "<Esc>:write<CR>", { noremap = true })
 
 -- nvim-ufo
 vim.o.foldcolumn = "1" -- '0' is not bad
