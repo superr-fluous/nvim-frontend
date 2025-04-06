@@ -2,6 +2,11 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
+vim.wo.number = true
+vim.wo.wrap = false
+vim.wo.linebreak = false
+vim.wo.list = false
+
 vim.bo.softtabstop = 2
 vim.g.mapleader = "<Space>"
 
@@ -214,3 +219,29 @@ gitsigns.setup({
     vim.keymap.set("n", "<leader>gde", gitsigns.toggle_deleted)
   end,
 })
+
+-- indent-blankline setup with flexoki theme colors
+local indent_hl = {
+  "flexoki-dark-orange",
+  "flexoki-dark-yellow",
+  "flexoki-dark-green",
+  "flexoki-dark-cyan",
+  "flexoki-dark-blue",
+  "flexoki-dark-purple",
+  "flexoki-dark-magenta",
+}
+
+local ibl_hooks = require("ibl.hooks")
+-- create the highlight groups in the highlight setup hook, so they are reset
+-- every time the colorscheme changes
+ibl_hooks.register(ibl_hooks.type.HIGHLIGHT_SETUP, function()
+  vim.api.nvim_set_hl(0, "flexoki-dark-orange", { fg = "#BC5215" })
+  vim.api.nvim_set_hl(0, "flexoki-dark-yellow", { fg = "#AD8301" })
+  vim.api.nvim_set_hl(0, "flexoki-dark-green", { fg = "#66800B" })
+  vim.api.nvim_set_hl(0, "flexoki-dark-cyan", { fg = "#24837B" })
+  vim.api.nvim_set_hl(0, "flexoki-dark-blue", { fg = "#205EA6" })
+  vim.api.nvim_set_hl(0, "flexoki-dark-purple", { fg = "#5E409D" })
+  vim.api.nvim_set_hl(0, "flexoki-dark-magenta", { fg = "#A02F6F" })
+end)
+
+require("ibl").setup({ indent = { highlight = indent_hl } })
