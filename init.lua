@@ -17,6 +17,9 @@ vim.g.mapleader = "<Space>"
 vim.opt.ttimeout = true
 vim.opt.timeout = true
 
+-- nvim-notify
+vim.opt.termguicolors = true
+
 vim.api.nvim_set_keymap("n", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("i", "<Space>", " ", { noremap = true, silent = true })
 
@@ -28,6 +31,7 @@ vim.filetype.add({
 
 require("config.lazy")
 require("todo-comments").setup()
+require("config.notify")
 
 local function EnterLineVisual()
 	vim.api.nvim_feedkeys("V", "n", true)

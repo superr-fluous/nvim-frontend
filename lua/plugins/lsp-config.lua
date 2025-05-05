@@ -33,7 +33,7 @@ return {
 					lspconfig[server_name].setup({
 						capabilities = capabilities,
 						on_attach = function()
-							print(server_name .. " LSP attached ✅")
+							vim.notify(server_name .. " LSP attached ✅", vim.log.levels.INFO)
 						end,
 					})
 				end,
