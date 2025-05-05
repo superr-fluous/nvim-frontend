@@ -22,6 +22,7 @@ return {
 						"css",
 						"scss",
 					},
+					disabled_filetypes = { "astro" },
 					cli_options = {
 						config_precedence = "prefer-file",
 						tab_width = 2,
@@ -30,8 +31,8 @@ return {
 						print_width = 120,
 					},
 				}),
-				require("none-ls.diagnostics.eslint_d"),
-				require("none-ls.formatting.eslint_d"),
+				require("none-ls.diagnostics.eslint_d").with({ disabled_filetypes = { "astro" } }),
+				require("none-ls.formatting.eslint_d").with({ disabled_filetypes = { "astro" } }),
 			},
 		})
 	end,

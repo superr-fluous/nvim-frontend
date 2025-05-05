@@ -20,6 +20,12 @@ vim.opt.timeout = true
 vim.api.nvim_set_keymap("n", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("i", "<Space>", " ", { noremap = true, silent = true })
 
+vim.filetype.add({
+	extension = {
+		astro = "astro",
+	},
+})
+
 require("config.lazy")
 require("todo-comments").setup()
 
